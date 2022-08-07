@@ -6,8 +6,9 @@
  *
  */
 // dependencies
+const { DESTRUCTION } = require('dns');
 const http = require('http');
-const url = require('url');
+const { handleReqRes } = require('./helpers/handleReqRes');
 
 // app object - module scaffolding
 const app = {};
@@ -26,14 +27,7 @@ app.createServer = () => {
 };
 
 // handle Request Response
-app.handleReqRes = (req, res) => {
-    // request handleing
-    // get the url and parse it
-    const parsedUrl = url.parse(req.url, true);
-    const path = parsedUrl.pathname;
-    console.log(path);
-    res.end('hello world');
-};
+app.handleReqRes = handleReqRes;
 
 // start the server
 app.createServer();
