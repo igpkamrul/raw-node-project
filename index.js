@@ -9,14 +9,8 @@
 const http = require("http");
 const { handleReqRes } = require("./helpers/handleReqRes");
 const environment = require("./helpers/environments");
-const data = require("./lib/data");
 
 // testing file system
-// @TODO: pore delete kore dibo
-
-data.delete("test", "newFile", (err) => {
-  console.log(err);
-});
 
 // app object - module scaffolding
 const app = {};
