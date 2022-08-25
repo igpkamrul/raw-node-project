@@ -5,6 +5,11 @@
  * Date: 08/24/22
  *
  */
+// dependencies
+const data = require("../../lib/data");
+const { hash } = require("../../helpers/utilities");
+const { parseJSON } = require("../../helpers/utilities");
+
 // module scaffolding
 const handler = {};
 
@@ -85,6 +90,32 @@ handler._users.post = (requestProperties, callback) => {
 };
 
 handler._users.get = (requestProperties, callback) => {
-  callback(200);
+  // @TODO: Authentication
+  handler._users.get = (requestProperties, callback) => {
+    // check the phone number if valid
+    const phone =
+      typeof requestProperties.queryStringObject.phone === "string" &&
+      requestProperties.queryStringObject.phone.trim().length === 11
+        ? requestProperties.queryStringObject.phone
+        : false;
+    if (phone) {
+      // lookup the user
+      data.read("users", phone, (err, u) => {
+        const user = { ...parseJSON(u) };
+        if (!err && user) {
+          delete user.password;
+          callback(200, user);
+        } else {
+          callback(404, {
+            error: "Requested user was not found!",
+          });
+        }
+      });
+    } else {
+      callback(404, {
+        error: "Requested user was not found!",
+      });
+    }
+  };
 };
 module.exports = handler;
